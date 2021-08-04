@@ -6,7 +6,7 @@
 /*   By: sde-alva <sde-alva@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/01 10:21:23 by sde-alva          #+#    #+#             */
-/*   Updated: 2021/08/03 22:34:19 by sde-alva         ###   ########.fr       */
+/*   Updated: 2021/08/04 15:42:51 by sde-alva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*ft_strchr(const char *s, int c)
 	return (match);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin_mod(char const *s1, char const *s2)
 {
 	size_t	s1_len;
 	size_t	s2_len;

@@ -6,7 +6,7 @@
 /*   By: sde-alva <sde-alva@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 16:42:15 by sde-alva          #+#    #+#             */
-/*   Updated: 2021/08/03 13:35:17 by sde-alva         ###   ########.fr       */
+/*   Updated: 2021/08/04 15:43:22 by sde-alva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct s_line_queue
 
 char	*get_next_line(int fd);
 char	*ft_strchr(const char *s, int c);
-char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin_mod(char const *s1, char const *s2);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 size_t	ft_strlen_set(const char *s, const char *set);
 #endif
