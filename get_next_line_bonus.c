@@ -6,85 +6,42 @@
 /*   By: sde-alva <sde-alva@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 16:36:56 by sde-alva          #+#    #+#             */
-/*   Updated: 2021/08/04 20:49:34 by sde-alva         ###   ########.fr       */
+/*   Updated: 2021/08/06 09:57:31 by sde-alva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	ft_push_line(int fd, char **str_buff)
-{
-	size_t	gotten;
-	char	*tmp;
-	char	buff[BUFFER_SIZE + 1];
-
-	gotten = read(fd, buff, BUFFER_SIZE);
-	if (gotten > 0)
-	{
-		buff[gotten] = '\0';
-		while (gotten > 0 && !ft_strchr(buff, '\n'))
-		{
-			tmp = *str_buff;
-			*str_buff = ft_strjoin_mod(*str_buff, buff);
-			if (tmp)
-				free(tmp);
-			gotten = read(fd, buff, BUFFER_SIZE);
-			buff[gotten] = '\0';
-		}
-		if (gotten > 0)
-		{
-			tmp = *str_buff;
-			*str_buff = ft_strjoin_mod(*str_buff, buff);
-			if (tmp)
-				free(tmp);
-		}
-	}
-}
-
-char	*ft_pop_line(char **str_buff)
-{
-	size_t	i;
-	size_t	line_len;
-	char	*str;
-	char	*tmp;
-
-	i = 0;
-	str = NULL;
-	if (*str_buff && (*str_buff)[0] != '\0')
-	{
-		line_len = ft_strlen_set(*str_buff, "\n");
-		str = (char *)malloc((line_len + 1) * sizeof(char));
-		while (i < line_len)
-		{
-			str[i] = (*str_buff)[i];
-			i++;
-		}
-		str[line_len] = '\0';
-		tmp = *str_buff;
-		*str_buff = ft_strjoin_mod(*str_buff + line_len, "");
-		free(tmp);
-	}
-	return (str);
-}
+t_fd_list	*ft_get_fd(t_fd_list **fd_list, int fd);
+t_fd_list	*ft_add_fd(t_fd_list **fd_list, int fd);
+void		ft_del_list(t_fd_list **fd_list);
 
 char	*get_next_line(int fd)
 {
-	static char	*to_read = NULL;
-	char		*str;
+	static t_fd_list	desc_list = NULL;
+	char				*to_read;
+	char				*str;
 
 	str = NULL;
-	if (fd >= 0)
+	if (fd >= 0 || read(fd, str, 0) == 0)
 	{
-		ft_push_line(fd, &to_read);
-		if (to_read)
-			str = ft_pop_line(&to_read);
+		desc_list = ft_get_fd(&desc_list, fd);
+		if (!desc_list)
+			desc_list = ft_add_fd(&desc_list, fd);
+		if (desc_list)
+		{
+			to_read = desc_list->str_buff;
+			ft_push_line(fd, &to_read);
+			if (to_read)
+				str = ft_pop_line(&to_read);
+		}
 	}
 	if (!str && to_read)
-		free(to_read);
+		ft_del_list(&desc_list);
 	return (str);
 }
 
-t_fd_list	*ft_get_fd(t_fd_list ** fd_list, int fd)
+t_fd_list	*ft_get_fd(t_fd_list **fd_list, int fd)
 {
 	t_fd_list	*list;
 
@@ -94,7 +51,7 @@ t_fd_list	*ft_get_fd(t_fd_list ** fd_list, int fd)
 	return (list);
 }
 
-t_fd_list	*ft_add_fd(t_fd_list ** fd_list, int fd)
+t_fd_list	*ft_add_fd(t_fd_list **fd_list, int fd)
 {
 	t_fd_list	*list;
 	t_fd_list	*new_node;
@@ -115,7 +72,27 @@ t_fd_list	*ft_add_fd(t_fd_list ** fd_list, int fd)
 			*fd_list = new_node;
 		}
 	}
-	return (*fd_list)
+	return (*fd_list);
 }
 
-t_fd_list	*ft_del_list(t_fd_list ** fd_list, int fd);
+void	ft_del_list(t_fd_list **fd_list)
+{
+	int			is_clean;
+	t_fd_list	*list;
+
+	is_clean = 1;
+	list = *fd_list;
+	while (list)
+	{
+		if (list->str_buff)
+			is_clean = 0;
+		list = list->next;
+	}
+	list = *fd_list;
+	if (list && is_clean)
+	{
+		list = *fd_list->next;
+		free(*fd_list);
+		*fd_list = list;
+	}
+}
