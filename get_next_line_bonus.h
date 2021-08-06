@@ -6,12 +6,12 @@
 /*   By: sde-alva <sde-alva@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 16:42:15 by sde-alva          #+#    #+#             */
-/*   Updated: 2021/08/06 09:12:13 by sde-alva         ###   ########.fr       */
+/*   Updated: 2021/08/06 10:43:35 by sde-alva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 # include <stdlib.h>
 # include <unistd.h>
 # ifndef BUFFER_SIZE
@@ -22,7 +22,7 @@ typedef struct s_fd_list
 {
 	int					fd;
 	char				*str_buff;
-	struct s_line_queue	*next;
+	struct s_fd_list	*next;
 }	t_fd_list;
 
 char	*get_next_line(int fd);

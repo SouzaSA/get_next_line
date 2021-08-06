@@ -6,7 +6,7 @@
 /*   By: sde-alva <sde-alva@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 16:36:56 by sde-alva          #+#    #+#             */
-/*   Updated: 2021/08/06 10:02:09 by sde-alva         ###   ########.fr       */
+/*   Updated: 2021/08/06 11:47:24 by sde-alva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void		ft_del_list(t_fd_list **fd_list);
 
 char	*get_next_line(int fd)
 {
-	static t_fd_list	desc_list = NULL;
-	char				*to_read;
+	static t_fd_list	*desc_list = NULL;
+	char				**to_read;
 	char				*str;
 
 	str = NULL;
@@ -30,14 +30,18 @@ char	*get_next_line(int fd)
 			desc_list = ft_add_fd(&desc_list, fd);
 		if (desc_list)
 		{
-			to_read = desc_list->str_buff;
-			ft_push_line(fd, &to_read);
+			to_read = &(desc_list->str_buff);
+			ft_push_line(fd, to_read);
 			if (to_read)
-				str = ft_pop_line(&to_read);
+				str = ft_pop_line(to_read);
 		}
 	}
-	if (!str && to_read)
+	if (!str && *to_read)
+	{
+		free(*to_read);
+		*to_read = NULL;
 		ft_del_list(&desc_list);
+	}
 	return (str);
 }
 
@@ -47,7 +51,7 @@ t_fd_list	*ft_get_fd(t_fd_list **fd_list, int fd)
 
 	list = *fd_list;
 	while (list && list->fd != fd)
-		list->next;
+		list = list->next;
 	return (list);
 }
 
@@ -60,11 +64,13 @@ t_fd_list	*ft_add_fd(t_fd_list **fd_list, int fd)
 	if (new_node)
 	{
 		new_node->fd = fd;
+		new_node->str_buff = NULL;
+		new_node->next = NULL;
 		list = *fd_list;
 		if (list)
 		{
 			while (list->next)
-				list->next;
+				list = list->next;
 			list->next = new_node;
 		}
 		else
@@ -72,7 +78,7 @@ t_fd_list	*ft_add_fd(t_fd_list **fd_list, int fd)
 			*fd_list = new_node;
 		}
 	}
-	return (*fd_list);
+	return (new_node);
 }
 
 void	ft_del_list(t_fd_list **fd_list)
@@ -91,7 +97,7 @@ void	ft_del_list(t_fd_list **fd_list)
 	list = *fd_list;
 	if (list && is_clean)
 	{
-		list = *fd_list->next;
+		list = (*fd_list)->next;
 		free(*fd_list);
 		*fd_list = list;
 	}

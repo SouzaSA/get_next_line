@@ -6,7 +6,7 @@
 /*   By: sde-alva <sde-alva@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/01 10:21:23 by sde-alva          #+#    #+#             */
-/*   Updated: 2021/08/06 10:02:25 by sde-alva         ###   ########.fr       */
+/*   Updated: 2021/08/06 11:32:06 by sde-alva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*ft_strjoin_mod(char const *s1, char const *s2)
 	dst = (char *)malloc((s1_len + s2_len + 1) * sizeof(char));
 	if (dst)
 	{
-		while (s1[i] != '\0' || s2[i] != '\0')
+		while (i < s1_len || i < s2_len)
 		{
 			if (i < s1_len)
 				dst[i] = s1[i];
