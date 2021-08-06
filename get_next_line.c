@@ -6,7 +6,7 @@
 /*   By: sde-alva <sde-alva@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 16:36:56 by sde-alva          #+#    #+#             */
-/*   Updated: 2021/08/05 21:21:09 by sde-alva         ###   ########.fr       */
+/*   Updated: 2021/08/05 21:25:14 by sde-alva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	*get_next_line(int fd)
 	char		test[1];
 
 	str = NULL;
-	if (fd >= 0 && read(fd, test, 0))
+	if (fd >= 0 && read(fd, test, 0) == 0)
 	{
 		ft_push_line(fd, &to_read);
 		if (to_read)
