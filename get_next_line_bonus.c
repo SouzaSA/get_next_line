@@ -6,7 +6,7 @@
 /*   By: sde-alva <sde-alva@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 16:36:56 by sde-alva          #+#    #+#             */
-/*   Updated: 2021/08/07 10:42:09 by sde-alva         ###   ########.fr       */
+/*   Updated: 2021/08/07 10:52:12 by sde-alva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*get_next_line(int fd)
 	str = NULL;
 	if (fd >= 0 && read(fd, str, 0) == 0)
 	{
-		to_read = ft_get_str(&desc_list, fd);
+		to_read = &(ft_get_str(&desc_list, fd)->str_buff);
 		if (desc_list)
 		{
 			to_read = &(desc_list->str_buff);
@@ -39,7 +39,7 @@ char	*get_next_line(int fd)
 	return (str);
 }
 
-char	**ft_get_str(t_fd_list **fd_list, int fd)
+t_fd_list	*ft_get_str(t_fd_list **fd_list, int fd)
 {
 	t_fd_list	*list;
 
@@ -90,7 +90,8 @@ void	ft_del_list(t_fd_list **fd_list, int fd)
 	if (*fd_list)
 	{
 		node = ft_get_str(fd_list, fd);
-		free(node->str_buff);
+		if (node->str_buff)
+			free(node->str_buff);
 		node->str_buff = NULL;
 		list = *fd_list;
 		while (list)
