@@ -6,7 +6,7 @@
 /*   By: sde-alva <sde-alva@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 16:36:56 by sde-alva          #+#    #+#             */
-/*   Updated: 2021/08/07 00:10:53 by sde-alva         ###   ########.fr       */
+/*   Updated: 2021/08/07 00:17:54 by sde-alva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,13 @@ t_fd_list	*ft_get_fd(t_fd_list **fd_list, int fd)
 {
 	t_fd_list	*list;
 
-	list = *fd_list;
-	while (list && list->fd != fd)
-		list = list->next;
+	list = NULL;
+	if(fd_list && *fd_list)
+	{
+		list = *fd_list;
+		while (list && list->fd != fd)
+			list = list->next;
+	}
 	return (list);
 }
 
@@ -61,22 +65,25 @@ t_fd_list	*ft_add_fd(t_fd_list **fd_list, int fd)
 	t_fd_list	*list;
 	t_fd_list	*new_node;
 
-	new_node = (t_fd_list *)malloc(sizeof(t_fd_list));
-	if (new_node)
+	if (fd_list && *fd_list)
 	{
-		new_node->fd = fd;
-		new_node->str_buff = NULL;
-		new_node->next = NULL;
-		list = *fd_list;
-		if (list)
+		new_node = (t_fd_list *)malloc(sizeof(t_fd_list));
+		if (new_node)
 		{
-			while (list->next)
-				list = list->next;
-			list->next = new_node;
-		}
-		else
-		{
-			*fd_list = new_node;
+			new_node->fd = fd;
+			new_node->str_buff = NULL;
+			new_node->next = NULL;
+			list = *fd_list;
+			if (list)
+			{
+				while (list->next)
+					list = list->next;
+				list->next = new_node;
+			}
+			else
+			{
+				*fd_list = new_node;
+			}
 		}
 	}
 	return (new_node);
