@@ -6,7 +6,7 @@
 /*   By: sde-alva <sde-alva@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 16:36:56 by sde-alva          #+#    #+#             */
-/*   Updated: 2021/08/06 22:06:43 by sde-alva         ###   ########.fr       */
+/*   Updated: 2021/08/06 22:40:16 by sde-alva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ char	*get_next_line(int fd)
 	static t_fd_list	*desc_list = NULL;
 	char				**to_read;
 	char				*str;
-	char				test[1];
 
 	str = NULL;
-	if (fd >= 0 && read(fd, test, 0) == 0)
+	**to_read = NULL;
+	if (fd >= 0 && read(fd, str, 0) == 0)
 	{
 		desc_list = ft_get_fd(&desc_list, fd);
 		if (!desc_list)
@@ -37,7 +37,7 @@ char	*get_next_line(int fd)
 				str = ft_pop_line(to_read);
 		}
 	}
-	if (!str && *to_read)
+	if (!str && **to_read && *to_read)
 	{
 		free(*to_read);
 		*to_read = NULL;
