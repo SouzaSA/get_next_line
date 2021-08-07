@@ -6,7 +6,7 @@
 /*   By: sde-alva <sde-alva@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 16:36:56 by sde-alva          #+#    #+#             */
-/*   Updated: 2021/08/06 23:13:55 by sde-alva         ###   ########.fr       */
+/*   Updated: 2021/08/07 00:06:30 by sde-alva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*get_next_line(int fd)
 	char				*str;
 
 	str = NULL;
-	*to_read = NULL;
+	**to_read = &str;
 	if (fd >= 0 && read(fd, str, 0) == 0)
 	{
 		desc_list = ft_get_fd(&desc_list, fd);
@@ -37,7 +37,7 @@ char	*get_next_line(int fd)
 				str = ft_pop_line(to_read);
 		}
 	}
-	if (!str)
+	if (!str && *to_read)
 	{
 		free(*to_read);
 		*to_read = NULL;
