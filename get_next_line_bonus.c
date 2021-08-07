@@ -6,7 +6,7 @@
 /*   By: sde-alva <sde-alva@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 16:36:56 by sde-alva          #+#    #+#             */
-/*   Updated: 2021/08/07 10:56:58 by sde-alva         ###   ########.fr       */
+/*   Updated: 2021/08/07 15:06:40 by sde-alva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ t_fd_list	*ft_add_fd(t_fd_list **fd_list, int fd)
 			*fd_list = new_node;
 		}
 	}
-	return (new_node);
+	return (*fd_list);
 }
 
 void	ft_del_list(t_fd_list **fd_list, int fd)
