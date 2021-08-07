@@ -6,7 +6,7 @@
 /*   By: sde-alva <sde-alva@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 16:36:56 by sde-alva          #+#    #+#             */
-/*   Updated: 2021/08/06 22:40:16 by sde-alva         ###   ########.fr       */
+/*   Updated: 2021/08/06 22:48:04 by sde-alva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*get_next_line(int fd)
 	char				*str;
 
 	str = NULL;
-	**to_read = NULL;
+	**to_read = (void *)NULL;
 	if (fd >= 0 && read(fd, str, 0) == 0)
 	{
 		desc_list = ft_get_fd(&desc_list, fd);
