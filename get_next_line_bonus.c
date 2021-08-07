@@ -6,7 +6,7 @@
 /*   By: sde-alva <sde-alva@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 16:36:56 by sde-alva          #+#    #+#             */
-/*   Updated: 2021/08/06 22:49:31 by sde-alva         ###   ########.fr       */
+/*   Updated: 2021/08/06 23:13:55 by sde-alva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ char	*get_next_line(int fd)
 	char				*str;
 
 	str = NULL;
+	*to_read = NULL;
 	if (fd >= 0 && read(fd, str, 0) == 0)
 	{
 		desc_list = ft_get_fd(&desc_list, fd);
@@ -87,18 +88,21 @@ void	ft_del_list(t_fd_list **fd_list)
 	t_fd_list	*list;
 
 	is_clean = 1;
-	list = *fd_list;
-	while (list)
+	if (*fd_list)
 	{
-		if (list->str_buff)
-			is_clean = 0;
-		list = list->next;
-	}
-	list = *fd_list;
-	if (list && is_clean)
-	{
-		list = (*fd_list)->next;
-		free(*fd_list);
-		*fd_list = list;
+		list = *fd_list;
+		while (list)
+		{
+			if (list->str_buff)
+				is_clean = 0;
+			list = list->next;
+		}
+		list = *fd_list;
+		if (list && is_clean)
+		{
+			list = (*fd_list)->next;
+			free(*fd_list);
+			*fd_list = list;
+		}
 	}
 }
