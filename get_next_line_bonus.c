@@ -6,7 +6,7 @@
 /*   By: sde-alva <sde-alva@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 16:36:56 by sde-alva          #+#    #+#             */
-/*   Updated: 2021/08/07 00:58:46 by sde-alva         ###   ########.fr       */
+/*   Updated: 2021/08/07 10:32:35 by sde-alva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char		**ft_get_str(t_fd_list **fd_list, int fd);
 t_fd_list	*ft_add_fd(int fd);
-void		ft_del_list(t_fd_list **fd_list);
+void		ft_del_list(t_fd_list **fd_list, int fd);
 
 char	*get_next_line(int fd)
 {
@@ -34,12 +34,8 @@ char	*get_next_line(int fd)
 				str = ft_pop_line(to_read);
 		}
 	}
-	if (!str && desc_list)
-	{
-		free(*to_read);
-		*to_read = NULL;
-		ft_del_list(&desc_list);
-	}
+	if (!str && read(fd, str, 0) == 0)
+		ft_del_list(&desc_list, fd);
 	return (str);
 }
 
@@ -84,14 +80,18 @@ t_fd_list	*ft_add_fd(t_fd_list **fd_list, int fd)
 	return (new_node);
 }
 
-void	ft_del_list(t_fd_list **fd_list)
+void	ft_del_list(t_fd_list **fd_list, int fd)
 {
 	int			is_clean;
 	t_fd_list	*list;
+	t_fd_list	*node;
 
 	is_clean = 1;
 	if (*fd_list)
 	{
+		node = ft_get_str(fd_list, fd);
+		free(node->str_buff);
+		node->str_buff = NULL;
 		list = *fd_list;
 		while (list)
 		{
