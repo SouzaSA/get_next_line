@@ -6,7 +6,7 @@
 /*   By: sde-alva <sde-alva@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 16:36:56 by sde-alva          #+#    #+#             */
-/*   Updated: 2021/08/07 00:52:21 by sde-alva         ###   ########.fr       */
+/*   Updated: 2021/08/07 00:57:10 by sde-alva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*ft_get_str(t_fd_list **fd_list, int fd)
 		*fd_list = ft_add_fd(&list, fd);
 		list = *fd_list;
 	}
-	return (list->str_buff);
+	return (&(list->str_buff));
 }
 
 t_fd_list	*ft_add_fd(t_fd_list **fd_list, int fd)
