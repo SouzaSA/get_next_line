@@ -6,7 +6,7 @@
 /*   By: sde-alva <sde-alva@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 16:36:56 by sde-alva          #+#    #+#             */
-/*   Updated: 2021/08/07 00:17:54 by sde-alva         ###   ########.fr       */
+/*   Updated: 2021/08/07 00:19:35 by sde-alva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ t_fd_list	*ft_add_fd(t_fd_list **fd_list, int fd)
 	t_fd_list	*list;
 	t_fd_list	*new_node;
 
+	new_node = NULL;
 	if (fd_list && *fd_list)
 	{
 		new_node = (t_fd_list *)malloc(sizeof(t_fd_list));
