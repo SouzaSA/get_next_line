@@ -6,14 +6,14 @@
 /*   By: sde-alva <sde-alva@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 16:36:56 by sde-alva          #+#    #+#             */
-/*   Updated: 2021/08/07 00:36:11 by sde-alva         ###   ########.fr       */
+/*   Updated: 2021/08/07 00:52:21 by sde-alva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-t_fd_list	*ft_get_fd(t_fd_list **fd_list, int fd);
-t_fd_list	*ft_add_fd(t_fd_list **fd_list, int fd);
+char		**ft_get_str(t_fd_list **fd_list, int fd);
+t_fd_list	*ft_add_fd(int fd);
 void		ft_del_list(t_fd_list **fd_list);
 
 char	*get_next_line(int fd)
@@ -25,9 +25,7 @@ char	*get_next_line(int fd)
 	str = NULL;
 	if (fd >= 0 && read(fd, str, 0) == 0)
 	{
-		desc_list = ft_get_fd(&desc_list, fd);
-		if (!desc_list)
-			desc_list = ft_add_fd(&desc_list, fd);
+		to_read = ft_get_fd(&desc_list, fd);
 		if (desc_list)
 		{
 			to_read = &(desc_list->str_buff);
@@ -45,14 +43,19 @@ char	*get_next_line(int fd)
 	return (str);
 }
 
-t_fd_list	*ft_get_fd(t_fd_list **fd_list, int fd)
+char	*ft_get_str(t_fd_list **fd_list, int fd)
 {
 	t_fd_list	*list;
 
 	list = *fd_list;
 	while (list && list->fd != fd)
 		list = list->next;
-	return (list);
+	if (!list)
+	{
+		*fd_list = ft_add_fd(&list, fd);
+		list = *fd_list;
+	}
+	return (list->str_buff);
 }
 
 t_fd_list	*ft_add_fd(t_fd_list **fd_list, int fd)
@@ -97,7 +100,7 @@ void	ft_del_list(t_fd_list **fd_list)
 			list = list->next;
 		}
 		list = *fd_list;
-		if (is_clean && list && list->next)
+		if (is_clean && list)
 		{
 			list = (*fd_list)->next;
 			free(*fd_list);
