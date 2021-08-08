@@ -6,7 +6,7 @@
 /*   By: sde-alva <sde-alva@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 16:36:56 by sde-alva          #+#    #+#             */
-/*   Updated: 2021/08/08 11:31:14 by sde-alva         ###   ########.fr       */
+/*   Updated: 2021/08/08 11:44:35 by sde-alva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ void	ft_del_list(t_fd_list **fd_list, t_fd_list *node_fd)
 		if (is_clean && list)
 		{
 			list = (*fd_list)->next;
-			free(*fd_list);
+			if (*fd_list)
+				free(*fd_list);
 			*fd_list = list;
 		}
 	}
