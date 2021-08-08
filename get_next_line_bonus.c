@@ -6,15 +6,15 @@
 /*   By: sde-alva <sde-alva@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 16:36:56 by sde-alva          #+#    #+#             */
-/*   Updated: 2021/08/07 20:35:41 by sde-alva         ###   ########.fr       */
+/*   Updated: 2021/08/08 11:31:14 by sde-alva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
+t_fd_list	*ft_new_fd(int fd);
 t_fd_list	*ft_get_fd(t_fd_list **fd_list, int fd);
-t_fd_list	*ft_add_fd(t_fd_list **fd_list, int fd);
-void		ft_del_list(t_fd_list **fd_list, int fd);
+void		ft_del_list(t_fd_list **fd_list, t_fd_list *node_fd);
 
 char	*get_next_line(int fd)
 {
@@ -33,28 +33,12 @@ char	*get_next_line(int fd)
 		}
 	}
 	if (!str && fd_node)
-		ft_del_list(&desc_list, fd);
+		ft_del_list(&desc_list, fd_node);
 	return (str);
 }
 
-t_fd_list	*ft_get_fd(t_fd_list **fd_list, int fd)
+t_fd_list	*ft_new_fd(int fd)
 {
-	t_fd_list	*list;
-
-	list = *fd_list;
-	while (list && list->fd != fd)
-		list = list->next;
-	if (!*fd_list)
-	{
-		*fd_list = ft_add_fd(&list, fd);
-		list = *fd_list;
-	}
-	return (list);
-}
-
-t_fd_list	*ft_add_fd(t_fd_list **fd_list, int fd)
-{
-	t_fd_list	*list;
 	t_fd_list	*new_node;
 
 	new_node = (t_fd_list *)malloc(sizeof(t_fd_list));
@@ -63,34 +47,38 @@ t_fd_list	*ft_add_fd(t_fd_list **fd_list, int fd)
 		new_node->fd = fd;
 		new_node->str_buff = NULL;
 		new_node->next = NULL;
-		list = *fd_list;
-		if (list)
-		{
-			while (list->next)
-				list = list->next;
-			list->next = new_node;
-		}
-		else
-		{
-			*fd_list = new_node;
-		}
 	}
-	return (*fd_list);
+	return (new_node);
 }
 
-void	ft_del_list(t_fd_list **fd_list, int fd)
+t_fd_list	*ft_get_fd(t_fd_list **fd_list, int fd)
+{
+	t_fd_list	*list;
+
+	if (!(*fd_list))
+		*fd_list = ft_new_fd(fd);
+	list = *fd_list;
+	while (list->fd != fd && list->next)
+		list = list->next;
+	if (list->fd != fd)
+	{
+		list->next = ft_new_fd(fd);
+		list = list->next;
+	}
+	return (list);
+}
+
+void	ft_del_list(t_fd_list **fd_list, t_fd_list *node_fd)
 {
 	int			is_clean;
 	t_fd_list	*list;
-	t_fd_list	*node;
 
 	is_clean = 1;
 	if (*fd_list)
 	{
-		node = ft_get_fd(fd_list, fd);
-		if (node->str_buff)
-			free(node->str_buff);
-		node->str_buff = NULL;
+		if (node_fd->str_buff)
+			free(node_fd->str_buff);
+		node_fd->str_buff = NULL;
 		list = *fd_list;
 		while (list)
 		{
