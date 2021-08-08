@@ -6,7 +6,7 @@
 /*   By: sde-alva <sde-alva@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 16:36:56 by sde-alva          #+#    #+#             */
-/*   Updated: 2021/08/08 11:44:35 by sde-alva         ###   ########.fr       */
+/*   Updated: 2021/08/08 11:54:36 by sde-alva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ char	*get_next_line(int fd)
 	char				*str;
 
 	str = NULL;
+	fd_node = NULL;
 	if (fd >= 0 && read(fd, str, 0) == 0)
 	{
 		fd_node = ft_get_fd(&desc_list, fd);
