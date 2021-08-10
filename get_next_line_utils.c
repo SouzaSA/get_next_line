@@ -6,7 +6,7 @@
 /*   By: sde-alva <sde-alva@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/01 10:21:23 by sde-alva          #+#    #+#             */
-/*   Updated: 2021/08/10 16:49:42 by sde-alva         ###   ########.fr       */
+/*   Updated: 2021/08/10 16:53:35 by sde-alva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,9 +113,9 @@ void	ft_push_line(int fd, char **str_buff)
 		}
 		tmp = *str_buff;
 		*str_buff = ft_strjoin_mod(*str_buff, buff);
-		if (tmp)
-			free(tmp);
+		free(tmp);
 	}
+	free(buff);
 }
 
 char	*ft_pop_line(char **str_buff)
