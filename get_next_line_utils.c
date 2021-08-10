@@ -6,7 +6,7 @@
 /*   By: sde-alva <sde-alva@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/01 10:21:23 by sde-alva          #+#    #+#             */
-/*   Updated: 2021/08/08 14:30:44 by sde-alva         ###   ########.fr       */
+/*   Updated: 2021/08/10 16:40:26 by sde-alva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,13 @@ size_t	ft_strlen_set(const char *s, const char *set)
 
 void	ft_push_line(int fd, char **str_buff)
 {
-	int		gotten;
+	ssize_t	gotten;
 	char	*tmp;
-	char	buff[BUFFER_SIZE + 1];
+	char	*buff;
 
-	gotten = read(fd, buff, BUFFER_SIZE);
+	buff = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (buff)
+		gotten = read(fd, buff, BUFFER_SIZE);
 	if (gotten >= 0)
 	{
 		buff[gotten] = '\0';
@@ -108,13 +110,10 @@ void	ft_push_line(int fd, char **str_buff)
 			gotten = read(fd, buff, BUFFER_SIZE);
 			buff[gotten] = '\0';
 		}
-		if (gotten > 0)
-		{
-			tmp = *str_buff;
-			*str_buff = ft_strjoin_mod(*str_buff, buff);
-			if (tmp)
-				free(tmp);
-		}
+		tmp = *str_buff;
+		*str_buff = ft_strjoin_mod(*str_buff, buff);
+		if (tmp)
+			free(tmp);
 	}
 }
 
