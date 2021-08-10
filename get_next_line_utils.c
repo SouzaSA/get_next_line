@@ -6,7 +6,7 @@
 /*   By: sde-alva <sde-alva@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/01 10:21:23 by sde-alva          #+#    #+#             */
-/*   Updated: 2021/08/10 16:53:35 by sde-alva         ###   ########.fr       */
+/*   Updated: 2021/08/10 16:55:43 by sde-alva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	ft_push_line(int fd, char **str_buff)
 	buff = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (buff)
 		gotten = read(fd, buff, BUFFER_SIZE);
-	if (gotten >= 0)
+	if (gotten > 0)
 	{
 		buff[gotten] = '\0';
 		while (gotten > 0 && !ft_strchr(buff, '\n'))
