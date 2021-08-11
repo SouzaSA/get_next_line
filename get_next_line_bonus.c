@@ -6,15 +6,11 @@
 /*   By: sde-alva <sde-alva@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 16:36:56 by sde-alva          #+#    #+#             */
-/*   Updated: 2021/08/10 16:24:25 by sde-alva         ###   ########.fr       */
+/*   Updated: 2021/08/10 17:35:47 by sde-alva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
-
-t_fd_list	*ft_new_fd(int fd);
-t_fd_list	*ft_get_fd(t_fd_list **fd_list, int fd);
-void		ft_del_list(t_fd_list **fd_list, t_fd_list *node_fd);
 
 char	*get_next_line(int fd)
 {
