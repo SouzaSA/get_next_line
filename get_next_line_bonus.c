@@ -6,7 +6,7 @@
 /*   By: sde-alva <sde-alva@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 16:36:56 by sde-alva          #+#    #+#             */
-/*   Updated: 2021/08/10 17:35:47 by sde-alva         ###   ########.fr       */
+/*   Updated: 2021/08/28 12:26:11 by sde-alva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ char	*get_next_line(int fd)
 	static t_fd_list	*desc_list = NULL;
 	t_fd_list			*fd_node;
 	char				*str;
+	char				*str_tmp;
 
 	str = NULL;
 	fd_node = NULL;
@@ -25,8 +26,14 @@ char	*get_next_line(int fd)
 		fd_node = ft_get_fd(&desc_list, fd);
 		if (fd_node)
 		{
-			ft_push_line(fd, &(fd_node->str_buff));
-			str = ft_pop_line(&(fd_node->str_buff));
+			str_tmp = fd_node->str_buff;
+			if (str_tmp && !str_tmp[0] && ft_strchr(str_tmp, '\n'))
+				str = ft_pop_line(&(fd_node->str_buff));
+			else
+			{
+				ft_push_line(fd, &(fd_node->str_buff));
+				str = ft_pop_line(&(fd_node->str_buff));
+			}
 		}
 		if (!str || (fd_node && fd_node->str_buff && !((fd_node->str_buff)[0])))
 			ft_del_list(&desc_list, fd_node);
